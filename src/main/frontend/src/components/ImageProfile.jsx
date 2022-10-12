@@ -3,11 +3,11 @@ import "./ImageProfile.css";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
 
-const UserProfiles = () => {
+function UserProfiles() {
   const [userProfiles, setUserProfiles] = useState([]);
 
   const fetchUserProfiles = () => {
-    axios.get("http://localhost:8080/image/getAll").then((res) => {
+    axios.get("http://localhost:8080/image/getUserProfiles").then((res) => {
       setUserProfiles(res.data);
     });
   };
@@ -21,7 +21,7 @@ const UserProfiles = () => {
       <div className="col-md-6" key={index}>
         {userProfile.userProfileId ? (
           <img
-            src={`http://localhost:8080/image/${userProfile.userProfileId}/downloadImage`}
+            src={`http://localhost:8080/image/${userProfile.userProfileId}/download`}
           />
         ) : null}
         <br />
@@ -34,7 +34,7 @@ const UserProfiles = () => {
       </div>
     );
   });
-};
+}
 
 function MyDropzone({ userProfileId }) {
   const onDrop = useCallback((acceptedFiles) => {
@@ -47,15 +47,11 @@ function MyDropzone({ userProfileId }) {
     formData.append("file", file);
 
     axios
-      .put(
-        `http://localhost:8080/image/uploadImage/${userProfileId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
+      .put(`http://localhost:8080/image/${userProfileId}/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then(() => {
         console.log("file uploaded successfully");
         window.location.reload();
@@ -81,7 +77,7 @@ function MyDropzone({ userProfileId }) {
 function ImageProfile() {
   return (
     <div className="App">
-      <div className="row">
+      <div className="row" style={{ marginTop: "100px" }}>
         <UserProfiles />
       </div>
     </div>

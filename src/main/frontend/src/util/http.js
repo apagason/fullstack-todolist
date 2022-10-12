@@ -42,6 +42,7 @@ export function post(url, body) {
       });
   });
 }
+
 // put method for rest api request, just pass the url, access token and body data
 export function put(url, body) {
   return new Promise((resolve, reject) => {
@@ -59,6 +60,7 @@ export function put(url, body) {
       });
   });
 }
+
 // delete method for rest api request, just pass the url, access token and body data
 export function deleteMethod(url, body) {
   return new Promise((resolve, reject) => {
